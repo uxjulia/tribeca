@@ -12,4 +12,4 @@ test/src
 .tscache
 tribeca.json
 .vscode
-env
+./env
