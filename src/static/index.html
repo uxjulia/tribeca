@@ -38,15 +38,15 @@
     <table class="table table-hover table-bordered table-condensed table-responsive">
         <tr class="active">
             <th></th>
-            <th>bidSz</th>
-            <th>bidPx</th>
+            <th>Bid Size</th>
+            <th>Bid Price</th>
             <th>FV</th>
             <th>Spread</th>
-            <th>askPx</th>
-            <th>askSz</th>
+            <th>Ask Price</th>
+            <th>Ask Size</th>
         </tr>
         <tr class="info">
-            <td>q</td>
+            <td>Quote</td>
             <td ng-class="bidIsLive ? 'text-danger' : 'text-muted'">{{ qBidSz|number:2 }}</td>
             <td ng-class="bidIsLive ? 'text-danger' : 'text-muted'">{{ qBidPx }}</td>
             <td>{{ fairValue }}</td>
@@ -55,7 +55,7 @@
             <td ng-class="askIsLive ? 'text-danger' : 'text-muted'">{{ qAskSz|number:2 }}</td>
         </tr>
         <tr class="active" ng-repeat="level in levels">
-            <td>mkt{{ $index }}</td>
+            <td>Market{{ $index }}</td>
             <td>{{ level.bidSize|number:2 }}</td>
             <td ng-class="level.bidClass">{{ level.bidPrice }}</td>
             <td></td>
@@ -69,24 +69,24 @@
 <script type="text/ng-template" id="order_form.html">
     <form style="margin: 20px" class="form-horizontal" novalidate role="form">
         <div class="form-group">
-            <label>Side</label>
-            <select class="form-control input-sm" ng-model="order.side" ng-options="x for x in order.availableSides"></select>
+            <label for='side'>Side</label>
+            <select id='side' class="form-control input-sm" ng-model="order.side" ng-options="x for x in order.availableSides"></select>
         </div>
         <div class="form-group">
-            <label>Price</label>
-            <input class="form-control input-sm" type="number" ng-model="order.price" />
+            <label for='price'>Price</label>
+            <input id='price' class="form-control input-sm" type="number" ng-model="order.price" />
         </div>
         <div class="form-group">
-            <label>Size</label>
-            <input class="form-control input-sm" type="number" ng-model="order.quantity" />
+            <label for='size'>Size</label>
+            <input id='size' class="form-control input-sm" type="number" ng-model="order.quantity" />
         </div>
         <div class="form-group">
-            <label>TIF</label>
-            <select class="form-control input-sm" ng-model="order.timeInForce" ng-options="x for x in order.availableTifs"></select>
+            <label for='tif'>Time in Force</label>
+            <select id='tif' class="form-control input-sm" ng-model="order.timeInForce" ng-options="x for x in order.availableTifs"></select>
         </div>
         <div class="form-group">
-            <label>Type</label>
-            <select class="form-control input-sm" ng-model="order.orderType" ng-options="x for x in order.availableOrderTypes"></select>
+            <label for='type'>Type</label>
+            <select id='type' class="form-control input-sm" ng-model="order.orderType" ng-options="x for x in order.availableOrderTypes"></select>
         </div>
         <button type="button"
                 class="btn btn-success"
@@ -97,13 +97,13 @@
 
 <script type="text/ng-template" id="positions.html">
     <div>
-        <h4 class="col-md-12 col-xs-2"><small>
+        <h4 class="col-md-12"><small>
             {{ quoteCurrency }}: {{ quotePosition }} ({{ quoteHeldPosition }})
         </small></h4>
-        <h4 class="col-md-12 col-xs-2"><small>
+        <h4 class="col-md-12"><small>
             {{ baseCurrency }}: {{ basePosition }} ({{ baseHeldPosition }})
         </small></h4>
-        <h4 class="col-md-12 col-xs-2"><small>
+        <h4 class="col-md-12"><small>
           Value: {{ value }} ({{ quoteValue }})
         </small></h4>
     </div>
@@ -124,15 +124,15 @@
                     <li><p class="navbar-text">Target Base Position: <target-base-position></target-base-position></p></li>
                     <li><p class="navbar-text"><trade-safety></trade-safety></p></li>
                     <li>
-                        <button type="button"
+                        <button style="margin-right: 5px" type="button"
                                 class="btn btn-primary navbar-btn"
                                 id="order_form"
                                 mypopover popover-template="order_form.html"
-                                data-placement="bottom">Submit order
+                                data-placement="bottom">Submit Manual Order
                         </button>
                     </li>
                     <li>
-                        <button type="button"
+                        <button style="margin-right: 5px" type="button"
                                 class="btn btn-danger navbar-btn"
                                 ng-click="cancelAllOrders()"
                                 data-placement="bottom">Cancel All Open Orders
@@ -145,55 +145,49 @@
 
     <div class="container-fluid">
         <div>
-            <div style="padding: 5px" ng-class="pair.connected ? 'bg-success img-rounded' : 'bg-danger img-rounded'">
+            <div style="padding: 5px" ng-class="pair.connected ? 'bg-success' : 'bg-danger'">
                 <div class="row">
                     <div class="col-md-1 col-xs-12 text-center">
                         <div class="row">
                             <button class="col-md-12 col-xs-3" ng-disabled="!pair.active.connected" ng-class="pair.active.getClass()" ng-click="pair.active.submit()">
                                 {{ pair_name }}
                             </button>
-
                             <div ng-if="pair.connectionMessage">
                                 <span class="glyphicon glyphicon-alert" aria-hidden="true"></span> {{ pair.connectionMessage }}
                             </div>
-
                             <h4 style="font-size: 20px" class="col-md-12 col-xs-3">{{ exch_name }}</h4>
-
                             <position-grid></position-grid>
                         </div>
                     </div>
-
                     <div class="col-md-3 col-xs-12">
                         <market-quoting-grid></market-quoting-grid>
                         <messages-grid></messages-grid>
                     </div>
-
                     <div class="col-md-3 col-xs-12">
                         <trade-list></trade-list>
                     </div>
-
                     <div class="col-md-5 col-xs-12">
                         <market-trade-grid></market-trade-grid>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12 col-xs-12">
+                    <div class="col-md-12">
                         <div class="row">
                             <table class="table table-responsive table-bordered">
                                 <thead>
                                     <tr class="active">
-                                        <th>mode</th>
-                                        <th>fv</th>
-                                        <th>apMode</th>
-                                        <th>width</th>
-                                        <th>size</th>
-                                        <th>tbp</th>
-                                        <th>pDiv</th>
-                                        <th>ewma?</th>
-                                        <th>apr?</th>
-                                        <th>trds</th>
-                                        <th>/sec</th>
+                                        <th title='Mode'>Mode</th>
+                                        <th title='Fair Value'>FV</th>
+                                        <th title='Auto Position Mode'>AP Mode</th>
+                                        <th title='Range'>Range</th>
+                                        <th title='Trade Size'>Size</th>
+                                        <th title='Target Base Price'>TBP</th>
+                                        <th title='Position Divergence'>pDiv</th>
+                                        <th title='Use Exponential Weighted Moving Average'>Use EWMA</th>
+                                        <th title='Use Automatic Position Rebalancing'>Use APR</th>
+                                        <th title='Trades'>Trades</th>
+                                        <th title='Per Second'>per Second</th>
                                         <th colspan="2">
                                             <span ng-if="!pair.quotingParameters.pending && pair.quotingParameters.connected" class="text-success">
                                                 Applied
@@ -276,7 +270,7 @@
                                                 value="Reset" />
                                         </td>
                                         <td>
-                                            <input class="btn btn-default btn col-md-1 col-xs-6"
+                                            <input class="btn btn-primary btn col-md-1 col-xs-6"
                                                 style="width:50px"
                                                 type="submit"
                                                 ng-click="pair.quotingParameters.submit()"
@@ -293,7 +287,7 @@
                 </div>
 
                 <div class="row table-responsive">
-                    <div class="col-md-12 col-xs-12">
+                    <div class="col-md-12">
                         <order-list></order-list>
                     </div>
                 </div>
