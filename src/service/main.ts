@@ -394,17 +394,6 @@ const runTradingSystem = async (classes: SimulationClasses) : Promise<void> => {
         return orderBroker.cancelOpenOrders();
     };
 
-    // event looped blocked timer
-    let start = process.hrtime();
-    const interval = 100;
-    setInterval(() => {
-        const delta = process.hrtime(start);
-        const ms = (delta[0] * 1e9 + delta[1]) / 1e6;
-        const n = ms - interval;
-        if (n > 25)
-            mainLog.info(`Event looped blocked for ${Utils.roundUp(n, .001)}ms`);
-        start = process.hrtime();
-    }, interval).unref();
 };
 
 const harness = async () : Promise<any> => {
