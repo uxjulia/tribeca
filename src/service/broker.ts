@@ -49,7 +49,7 @@ export class MarketDataBroker implements Interfaces.IMarketDataBroker {
         this._mdGateway.MarketData.on(this.handleMarketData);
         this._mdGateway.ConnectChanged.on(s => {
             if (s == Models.ConnectivityStatus.Disconnected) this._currentBook = null;
-            _messages.publish("MD gw " + Models.ConnectivityStatus[s]);
+            _messages.publish("MD gateway " + Models.ConnectivityStatus[s]);
         });
     }
 }
@@ -387,7 +387,7 @@ export class OrderBroker implements Interfaces.IOrderBroker {
         this._oeGateway.OrderUpdate.on(this.updateOrderState);
 
         this._oeGateway.ConnectChanged.on(s => {
-            _messages.publish("OE gw " + Models.ConnectivityStatus[s]);
+            _messages.publish("OE gateway " + Models.ConnectivityStatus[s]);
         });
 
         this._timeProvider.setInterval(this.clearPendingRemovals, moment.duration(5, "seconds"));
