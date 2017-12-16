@@ -11,6 +11,13 @@ services:
     ports:
       - "3000:3000"
     tty: true
+    volumes: 
+      - data:/data
   tribeca-mongo:
     image: mongo
     restart: on-failure
+    volumes:
+      - data:/data/db
+volumes:
+  data:
+    external: true
