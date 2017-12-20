@@ -12,9 +12,13 @@ Runs on the latest node.js (v7.8 or greater). Persistence is acheived using mong
 
 1. Install [docker compose](https://docs.docker.com/compose/install/).
 
-2. Change the environment variables of `env` file to match your desired [configuration](https://github.com/michaelgrosner/tribeca#configuration). Input your exchange connectivity information, account information, and mongoDB credentials.
+2. Create a docker volume by running `docker volume create data-volume`. This creates a new docker volume with the name `data-volume`. Note: You can replace `data-volume` with whatever name you want, but if you do, make sure to update the `docker-compose.yml` file and replace `data-volume` wherever you see it with the name you chose.
 
-3. Run `docker-compose up -d --build`. If you run `docker-compose ps`, you should see the containers running.
+3. Run `cp env-defaults.md env` to copy the default environment config file to a new `env` file. Add your exchange-specific API information in the new `env` file and set the variables to match your desired [configuration](https://github.com/michaelgrosner/tribeca#configuration).
+
+4. Run `docker-compose up -d --build`. This will build the docker images and deploy them in detached mode. If you want to see the log output of the containers, run the same command without the `-d` flag. If you run `docker-compose ps`, you should see the containers running.
+
+Note: If you make any changes to the `env` or `docker-compose.yml` file, run `docker-compose up -d` and docker-compose will rebuild the containers affected by the changes.
 
 ### Docker Installation
 
